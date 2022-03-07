@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contentType/type_model.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contentType/type_model.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
+/** @function typeSchema */
+// Schema in type for model
+
+const typeSchema = new Schema({
+    id_tipoContenido:{
+        type: Number,
+        required: true,
+        unique: true,
+        trim: true
+    },
+    nombre_tipoContenido:{
+        type: String,
+        required: true,
+        trim: true
+    },
+},{timestamps:true});
+
+module.exports = typeSchema;
+//module.exports = mongoose.model('contents', contentSchema);
+//id_tipoContenido	
+//nombre_tipoContenido
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#activitiesSchema">activitiesSchema</a></li><li><a href="global.html#activitySchema">activitySchema</a></li><li><a href="global.html#adminSchema">adminSchema</a></li><li><a href="global.html#allActivities">allActivities</a></li><li><a href="global.html#allActivitiesMovil">allActivitiesMovil</a></li><li><a href="global.html#allAreaSubjects">allAreaSubjects</a></li><li><a href="global.html#allCompetencia">allCompetencia</a></li><li><a href="global.html#allContent">allContent</a></li><li><a href="global.html#allContentMovil">allContentMovil</a></li><li><a href="global.html#allContentMovilG">allContentMovilG</a></li><li><a href="global.html#allDocente">allDocente</a></li><li><a href="global.html#allDudas">allDudas</a></li><li><a href="global.html#allEstudiantes">allEstudiantes</a></li><li><a href="global.html#allEventos">allEventos</a></li><li><a href="global.html#allEventsForAngular">allEventsForAngular</a></li><li><a href="global.html#allGrades">allGrades</a></li><li><a href="global.html#allSchools">allSchools</a></li><li><a href="global.html#allStudents">allStudents</a></li><li><a href="global.html#allSubjectActives">allSubjectActives</a></li><li><a href="global.html#allSubjectActivesMovil">allSubjectActivesMovil</a></li><li><a href="global.html#allSubjects">allSubjects</a></li><li><a href="global.html#allTypes">allTypes</a></li><li><a href="global.html#areaSubjectSchema">areaSubjectSchema</a></li><li><a href="global.html#competenciaSchema">competenciaSchema</a></li><li><a href="global.html#conectionWithApp">conectionWithApp</a></li><li><a href="global.html#contentSchema">contentSchema</a></li><li><a href="global.html#createActivity">createActivity</a></li><li><a href="global.html#createAdmin">createAdmin</a></li><li><a href="global.html#createAreaSubject">createAreaSubject</a></li><li><a href="global.html#createCompentencia">createCompentencia</a></li><li><a href="global.html#createContentREA">createContentREA</a></li><li><a href="global.html#createDocente">createDocente</a></li><li><a href="global.html#createDuda">createDuda</a></li><li><a href="global.html#createEstudiante">createEstudiante</a></li><li><a href="global.html#createEventos">createEventos</a></li><li><a href="global.html#createGrade">createGrade</a></li><li><a href="global.html#createSchool">createSchool</a></li><li><a href="global.html#createSubject">createSubject</a></li><li><a href="global.html#createSubjectActive">createSubjectActive</a></li><li><a href="global.html#createType">createType</a></li><li><a href="global.html#deleteActivity">deleteActivity</a></li><li><a href="global.html#deleteAreaSubject">deleteAreaSubject</a></li><li><a href="global.html#deleteCompetencia">deleteCompetencia</a></li><li><a href="global.html#deleteContentREA">deleteContentREA</a></li><li><a href="global.html#deleteDocente">deleteDocente</a></li><li><a href="global.html#deleteDuda">deleteDuda</a></li><li><a href="global.html#deleteEstudiante">deleteEstudiante</a></li><li><a href="global.html#deleteGrade">deleteGrade</a></li><li><a href="global.html#deleteSchool">deleteSchool</a></li><li><a href="global.html#deleteSubject">deleteSubject</a></li><li><a href="global.html#deleteSubjectActive">deleteSubjectActive</a></li><li><a href="global.html#deleteType">deleteType</a></li><li><a href="global.html#docenteSchema">docenteSchema</a></li><li><a href="global.html#dudaSchema">dudaSchema</a></li><li><a href="global.html#dudasSchema">dudasSchema</a></li><li><a href="global.html#estudianteSchema">estudianteSchema</a></li><li><a href="global.html#eventoSchema">eventoSchema</a></li><li><a href="global.html#eventosSchema">eventosSchema</a></li><li><a href="global.html#generateMetrics">generateMetrics</a></li><li><a href="global.html#gradeSchema">gradeSchema</a></li><li><a href="global.html#loadActivity">loadActivity</a></li><li><a href="global.html#loadAdmin">loadAdmin</a></li><li><a href="global.html#loadAreaSubject">loadAreaSubject</a></li><li><a href="global.html#loadCompetencia">loadCompetencia</a></li><li><a href="global.html#loadContentREA">loadContentREA</a></li><li><a href="global.html#loadDocente">loadDocente</a></li><li><a href="global.html#loadDuda">loadDuda</a></li><li><a href="global.html#loadDudaStudent">loadDudaStudent</a></li><li><a href="global.html#loadEvento">loadEvento</a></li><li><a href="global.html#loadGrade">loadGrade</a></li><li><a href="global.html#loadSchool">loadSchool</a></li><li><a href="global.html#loadStudents">loadStudents</a></li><li><a href="global.html#loadSubject">loadSubject</a></li><li><a href="global.html#loadSubjectActive">loadSubjectActive</a></li><li><a href="global.html#loadType">loadType</a></li><li><a href="global.html#loginDocente">loginDocente</a></li><li><a href="global.html#loginEstudiante">loginEstudiante</a></li><li><a href="global.html#newLoadAreaSubjects">newLoadAreaSubjects</a></li><li><a href="global.html#newloadCompetencias">newloadCompetencias</a></li><li><a href="global.html#newLoadContentREA">newLoadContentREA</a></li><li><a href="global.html#newLoadGrades">newLoadGrades</a></li><li><a href="global.html#newLoadSchools">newLoadSchools</a></li><li><a href="global.html#newLoadSubjectActives">newLoadSubjectActives</a></li><li><a href="global.html#newLoadSubjects">newLoadSubjects</a></li><li><a href="global.html#newLoadTypes">newLoadTypes</a></li><li><a href="global.html#RouterAdmin">RouterAdmin</a></li><li><a href="global.html#RoutesActivities">RoutesActivities</a></li><li><a href="global.html#RoutesAreaSubject">RoutesAreaSubject</a></li><li><a href="global.html#RoutesCompetencias">RoutesCompetencias</a></li><li><a href="global.html#RoutesContent">RoutesContent</a></li><li><a href="global.html#RoutesDocente">RoutesDocente</a></li><li><a href="global.html#RoutesDudas">RoutesDudas</a></li><li><a href="global.html#RoutesEstudiantes">RoutesEstudiantes</a></li><li><a href="global.html#RoutesEventos">RoutesEventos</a></li><li><a href="global.html#RoutesGrades">RoutesGrades</a></li><li><a href="global.html#RoutesSchool">RoutesSchool</a></li><li><a href="global.html#RoutesSubject">RoutesSubject</a></li><li><a href="global.html#RoutesSubjectActive">RoutesSubjectActive</a></li><li><a href="global.html#RoutesTypeContent">RoutesTypeContent</a></li><li><a href="global.html#schoolSchema">schoolSchema</a></li><li><a href="global.html#SearchContentREA">SearchContentREA</a></li><li><a href="global.html#subjectActiveSchema">subjectActiveSchema</a></li><li><a href="global.html#subjectSchema">subjectSchema</a></li><li><a href="global.html#typeSchema">typeSchema</a></li><li><a href="global.html#updloadSectionsActivity">updloadSectionsActivity</a></li><li><a href="global.html#uploadActivity">uploadActivity</a></li><li><a href="global.html#uploadDocente">uploadDocente</a></li><li><a href="global.html#uploadEstadoContentREA">uploadEstadoContentREA</a></li><li><a href="global.html#uploadEstadoDuda">uploadEstadoDuda</a></li><li><a href="global.html#uploadEstadoEvento">uploadEstadoEvento</a></li><li><a href="global.html#uploadEstudiante">uploadEstudiante</a></li><li><a href="global.html#uploadEvento">uploadEvento</a></li><li><a href="global.html#uploadInfoLoginDocente">uploadInfoLoginDocente</a></li><li><a href="global.html#uploadInfoPersonalDocente">uploadInfoPersonalDocente</a></li><li><a href="global.html#uploadRespuestaDuda">uploadRespuestaDuda</a></li><li><a href="global.html#uploadSchool">uploadSchool</a></li><li><a href="global.html#uploadURLContentREA">uploadURLContentREA</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Mar 17 2020 15:08:05 GMT-0500 (Colombia Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

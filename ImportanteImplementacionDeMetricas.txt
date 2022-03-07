@@ -1,0 +1,17 @@
+(SERVER) Todos los id de un Estudiante
+	ArrayEventsLog	[{id_evento:1, id_actividad:1},{id_evento:2, id_actividad:1},{id_evento3, id_actividad:2},{id_evento:4, id_actividad:1}];
+	ArrayAllActividades = [1];
+	For(var e in ArrayEventsLog){
+		For( var e in ArrayAllActividades){
+			if(e.id_actividad!=e){
+				ArrayAllActividades.add(e.id_actividad);
+			}
+		}	
+	}
+	After That
+	ArrayAllActividades=[1,2,3,4,5,6];
+	For (ArrayAllActividades.length){
+		const data = await API.getEventActivity();
+		
+	}
+	

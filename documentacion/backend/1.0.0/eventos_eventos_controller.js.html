@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: eventos/eventos_controller.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: eventos/eventos_controller.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const Eventos = require('./eventos_dao');
+var async  = require('express-async-await')
+var fetch = require('node-fetch')
+async function  obtenerLast () {
+    const last = await fetch('http://0.0.0.0:3000/loadAllEvento');
+    const data = await last.json();
+    console.log("Comprobando cuantos item tiene")
+    console.log(data.length);
+    return data.length;
+}
+/** @function createEventos */
+// Create the specific elements for Eventos in mongo. 
+
+exports.createEventos= async(req,res,next)=>  {
+    var last = await obtenerLast();
+    console.log("El ultimo allado")
+    console.log(last);
+    var id_evento =req.body.id_evento; 
+    console.log("ID Eventos");
+    console.log(id_evento);
+    last = last+1;
+    console.log("Trayendo Last +1")
+    console.log(last);
+    var idCompleta = id_evento+''+last+'';
+    console.log("Imprimiendo IdCompleta");
+    console.log(idCompleta);
+    var idConvertida = parseInt(idCompleta,10);
+    console.log("ID Convertida");
+    console.log(idConvertida);
+    const newEvento = {
+        id_evento: idConvertida,
+        count: last,
+        data_start: req.body.data_start,
+        hour_start: req.body.hour_start,
+        data_end: req.body.data_end,
+        hour_end: req.body.hour_end,
+        id_actividad: req.body.id_actividad,
+        id_estudiante: req.body.id_estudiante,
+        check_download: req.body.check_download,
+        check_inicio: req.body.check_inicio,
+        check_fin: req.body.check_fin,
+        check_answer: req.body.check_answer,
+        count_video: req.body.count_video,
+        check_video: req.body.check_video,
+        check_document: req.body.check_document,
+        check_a1: req.body.check_a1,
+        check_a2: req.body.check_a2,
+        check_a3: req.body.check_a3,
+        check_profile: req.body.check_profile,
+        check_Ea1: req.body.check_Ea1,
+        check_Ea2: req.body.check_Ea2,
+        check_Ea3: req.body.check_Ea3,
+        oculto: 0
+    }
+    //id_evento	data_start	hour_start	data_hours_end	hour_end
+    //	id_actividad	id_estudiante	check_download	check_inicio	
+    //check_fin	check_answer	count_video	check_video	check_document
+    //	check_a1	check_a2	check_a3	check_profile
+
+    console.log(newEvento);
+    Eventos.create(newEvento,(err,evento)=>{
+        if(err) return res.status(500).send('Server Error');
+        res.send(evento);
+    })
+}
+/** @function loadEvento */
+// Load the specific elements for Eventos in mongo. 
+
+exports.loadEvento = (req,res,next)=>{
+    const eventoData = {
+        id_estudiante: req.body.id_estudiante,
+    }
+    Eventos.findOne({id_estudiante: eventoData.id_estudiante},(err,evento)=>{
+        if(err) return res.status(500).send('Server Error');
+        if(!evento){
+            res.status(409).send({message:'Something Error'});
+        }else{
+            res.send(evento);
+        }
+    })
+}
+/** @function allEventos */
+// Load all the specific elements for Eventos in mongo. 
+
+exports.allEventos = async(req,res,next)=>{
+    const allEventos = await Eventos.find(function(err, eventStudents){
+        if(err) return res.status(500).send('Server Error');
+        if(!eventStudents){
+            res.status(409).send({message:'Something Error'});
+        } else{
+            res.send(eventStudents);
+        }
+    })
+    
+}
+/** @function allEventsForAngular */
+// Load all the specific elements for Eventos in mongo. 
+
+exports.allEventsForAngular=async(req,res,next)=>{
+    var mandaRes = 0;
+    const allEventos = await Eventos.find(function(err, eventStudents){
+        if(err) return res.status(500).send('Server Error');
+        if(!eventStudents){
+            res.status(409).send({message:'Something Error'});
+        } else{
+            //res.send(eventStudents);
+            mandaRes = 1;
+        }
+    })
+    if(mandaRes==1){
+    var storageAllInformation = [];
+    var storageAllInformationWithStudents = [];
+    var storageActividad = allEventos.reverse();
+    //console.log(storageActividad);
+    for (var i = 0; i&lt; allEventos.length;i++){
+        resultadoEstudiantes = Array.from(new Set(storageActividad.map(s => s.id_estudiante )))
+            .map(id_estudiante => {
+              return {
+                id_estudiante:id_estudiante,
+            };
+        });
+    }
+    console.log(resultadoEstudiantes.length);
+    for (var i=0; i&lt;resultadoEstudiantes.length;i++){
+        elementos = i;
+        storageActividad.filter(function(element){
+            if(element.id_estudiante==resultadoEstudiantes[elementos].id_estudiante){
+                storageAllInformation.push(element)
+            }
+        });
+        resultadoEstudiantesRep = Array.from(new Set(storageAllInformation.map(s => s.id_actividad )))
+            .map(id_actividad => {
+              return {
+                id_actividad:id_actividad,
+                data_start: storageAllInformation.find(s => s.id_actividad === id_actividad).data_start,
+                hour_start: storageAllInformation.find(s => s.id_actividad === id_actividad).hour_start,
+                data_end: storageAllInformation.find(s => s.id_actividad === id_actividad).data_end,
+                hour_end: storageAllInformation.find(s=> s.id_actividad=== id_actividad).hour_end,
+                check_download: storageAllInformation.find(s => s.id_actividad === id_actividad).check_download,
+                id_estudiante: storageAllInformation.find(s => s.id_actividad === id_actividad).id_estudiante,
+                check_inicio: storageAllInformation.find(s => s.id_actividad === id_actividad).check_inicio,
+                check_fin: storageAllInformation.find(s => s.id_actividad === id_actividad).check_fin,
+                check_answer: storageAllInformation.find(s => s.id_actividad === id_actividad).check_answer,
+                count_video: storageAllInformation.find(s => s.id_actividad === id_actividad).count_video,
+                check_video: storageAllInformation.find(s => s.id_actividad === id_actividad).check_video,
+                check_document: storageAllInformation.find(s => s.id_actividad === id_actividad).check_document,
+                check_a1: storageAllInformation.find(s => s.id_actividad === id_actividad).check_a1,
+                check_a2: storageAllInformation.find(s => s.id_actividad === id_actividad).check_a2,
+                check_a3: storageAllInformation.find(s => s.id_actividad === id_actividad).check_a3,
+                check_profile: storageAllInformation.find(s => s.id_actividad === id_actividad).check_profile,
+                check_Ea1: storageAllInformation.find(s => s.id_actividad === id_actividad).check_Ea1,
+                check_Ea2: storageAllInformation.find(s => s.id_actividad === id_actividad).check_Ea2,
+                check_Ea3: storageAllInformation.find(s => s.id_actividad === id_actividad).check_Ea3,
+                id_evento: storageAllInformation.find(s => s.id_actividad === id_actividad).id_evento,
+            };
+        });
+        storageAllInformation = [];
+        resultadoEstudiantesRep.filter(function(element){
+            storageAllInformationWithStudents.push(element);
+        });
+        
+    }
+    res.send(storageAllInformationWithStudents);
+    console.log(resultadoEstudiantes);
+
+    }
+}
+/** @function generateMetrics */
+// Generate metrics the specific elements for Eventos in mongo. 
+
+exports.generateMetrics=(req,res,next)=>{
+    const contentData={
+        id_estudiante: req.body.id_estudiante,
+    }
+    Eventos.find({id_estudiante: contentData.id_estudiante},(err,eventsMetrics)=>{
+        if(err) return res.status(500).send('Server Error');
+        if(!eventsMetrics){
+            res.status(409).send({message:'Something Error'});
+        }else{
+            var dataEvents = eventsMetrics;
+            console.log(dataEvents);
+            res.send(dataEvents);
+        }
+    })
+}
+/** @function uploadEvento*/
+// Upload the specific elements for Eventos in mongo. 
+
+exports.uploadEvento = async (req, res) => {
+    const eventoData={
+        id_evento: req.body.id_evento
+    }
+    const eventoNewData = {
+        data_start: req.body.data_start,
+        hour_start: req.body.hour_start,
+        data_end: req.body.data_end,
+        hour_end: req.body.hour_end,
+        id_actividad: req.body.id_actividad,
+        id_estudiante: req.body.id_estudiante,
+        check_download: req.body.check_download,
+        check_inicio: req.body.check_inicio,
+        check_fin: req.body.check_fin,
+        check_answer: req.body.check_answer,
+        count_video: req.body.count_video,
+        check_video: req.body.check_video,
+        check_document: req.body.check_document,
+        check_a1: req.body.check_a1,
+        check_a2: req.body.check_a2,
+        check_a3: req.body.check_a3,
+        check_profile: req.body.check_profile,
+        check_Ea1: req.body.check_Ea1,
+        check_Ea2: req.body.check_Ea2,
+        check_Ea3: req.body.check_Ea3,
+        oculto: req.body.oculto
+    }
+    await Eventos.updateOne({id_evento: eventoData.id_evento}, {$set: eventoNewData}, {new: true});
+    res.json({status: 'Evento Actualizado'});
+}
+/** @function uploadEstadoEvento*/
+// Upload the specific elements for Eventos in mongo. 
+
+exports.uploadEstadoEvento = async (req, res) => {
+    const eventoData={
+        id_evento: req.body.id_evento
+    }
+    const eventoNewData = {
+        oculto: req.body.oculto
+    }
+    await Eventos.updateOne({id_evento: eventoData.id_evento}, {$set: eventoNewData}, {new: true});
+    res.json({status: 'Estado Evento Actualizado'});
+}
+//id_evento	fecha	id_actividad	id_estudiante	
+//check_download	check_inicio	check_fin	
+//check_answer	count_video	check_video
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#activitiesSchema">activitiesSchema</a></li><li><a href="global.html#activitySchema">activitySchema</a></li><li><a href="global.html#adminSchema">adminSchema</a></li><li><a href="global.html#allActivities">allActivities</a></li><li><a href="global.html#allActivitiesMovil">allActivitiesMovil</a></li><li><a href="global.html#allAreaSubjects">allAreaSubjects</a></li><li><a href="global.html#allCompetencia">allCompetencia</a></li><li><a href="global.html#allContent">allContent</a></li><li><a href="global.html#allContentMovil">allContentMovil</a></li><li><a href="global.html#allContentMovilG">allContentMovilG</a></li><li><a href="global.html#allDocente">allDocente</a></li><li><a href="global.html#allDudas">allDudas</a></li><li><a href="global.html#allEstudiantes">allEstudiantes</a></li><li><a href="global.html#allEventos">allEventos</a></li><li><a href="global.html#allEventsForAngular">allEventsForAngular</a></li><li><a href="global.html#allGrades">allGrades</a></li><li><a href="global.html#allSchools">allSchools</a></li><li><a href="global.html#allStudents">allStudents</a></li><li><a href="global.html#allSubjectActives">allSubjectActives</a></li><li><a href="global.html#allSubjectActivesMovil">allSubjectActivesMovil</a></li><li><a href="global.html#allSubjects">allSubjects</a></li><li><a href="global.html#allTypes">allTypes</a></li><li><a href="global.html#areaSubjectSchema">areaSubjectSchema</a></li><li><a href="global.html#competenciaSchema">competenciaSchema</a></li><li><a href="global.html#conectionWithApp">conectionWithApp</a></li><li><a href="global.html#contentSchema">contentSchema</a></li><li><a href="global.html#createActivity">createActivity</a></li><li><a href="global.html#createAdmin">createAdmin</a></li><li><a href="global.html#createAreaSubject">createAreaSubject</a></li><li><a href="global.html#createCompentencia">createCompentencia</a></li><li><a href="global.html#createContentREA">createContentREA</a></li><li><a href="global.html#createDocente">createDocente</a></li><li><a href="global.html#createDuda">createDuda</a></li><li><a href="global.html#createEstudiante">createEstudiante</a></li><li><a href="global.html#createEventos">createEventos</a></li><li><a href="global.html#createGrade">createGrade</a></li><li><a href="global.html#createSchool">createSchool</a></li><li><a href="global.html#createSubject">createSubject</a></li><li><a href="global.html#createSubjectActive">createSubjectActive</a></li><li><a href="global.html#createType">createType</a></li><li><a href="global.html#deleteActivity">deleteActivity</a></li><li><a href="global.html#deleteAreaSubject">deleteAreaSubject</a></li><li><a href="global.html#deleteCompetencia">deleteCompetencia</a></li><li><a href="global.html#deleteContentREA">deleteContentREA</a></li><li><a href="global.html#deleteDocente">deleteDocente</a></li><li><a href="global.html#deleteDuda">deleteDuda</a></li><li><a href="global.html#deleteEstudiante">deleteEstudiante</a></li><li><a href="global.html#deleteGrade">deleteGrade</a></li><li><a href="global.html#deleteSchool">deleteSchool</a></li><li><a href="global.html#deleteSubject">deleteSubject</a></li><li><a href="global.html#deleteSubjectActive">deleteSubjectActive</a></li><li><a href="global.html#deleteType">deleteType</a></li><li><a href="global.html#docenteSchema">docenteSchema</a></li><li><a href="global.html#dudaSchema">dudaSchema</a></li><li><a href="global.html#dudasSchema">dudasSchema</a></li><li><a href="global.html#estudianteSchema">estudianteSchema</a></li><li><a href="global.html#eventoSchema">eventoSchema</a></li><li><a href="global.html#eventosSchema">eventosSchema</a></li><li><a href="global.html#generateMetrics">generateMetrics</a></li><li><a href="global.html#gradeSchema">gradeSchema</a></li><li><a href="global.html#loadActivity">loadActivity</a></li><li><a href="global.html#loadAdmin">loadAdmin</a></li><li><a href="global.html#loadAreaSubject">loadAreaSubject</a></li><li><a href="global.html#loadCompetencia">loadCompetencia</a></li><li><a href="global.html#loadContentREA">loadContentREA</a></li><li><a href="global.html#loadDocente">loadDocente</a></li><li><a href="global.html#loadDuda">loadDuda</a></li><li><a href="global.html#loadDudaStudent">loadDudaStudent</a></li><li><a href="global.html#loadEvento">loadEvento</a></li><li><a href="global.html#loadGrade">loadGrade</a></li><li><a href="global.html#loadSchool">loadSchool</a></li><li><a href="global.html#loadStudents">loadStudents</a></li><li><a href="global.html#loadSubject">loadSubject</a></li><li><a href="global.html#loadSubjectActive">loadSubjectActive</a></li><li><a href="global.html#loadType">loadType</a></li><li><a href="global.html#loginDocente">loginDocente</a></li><li><a href="global.html#loginEstudiante">loginEstudiante</a></li><li><a href="global.html#newLoadAreaSubjects">newLoadAreaSubjects</a></li><li><a href="global.html#newloadCompetencias">newloadCompetencias</a></li><li><a href="global.html#newLoadContentREA">newLoadContentREA</a></li><li><a href="global.html#newLoadGrades">newLoadGrades</a></li><li><a href="global.html#newLoadSchools">newLoadSchools</a></li><li><a href="global.html#newLoadSubjectActives">newLoadSubjectActives</a></li><li><a href="global.html#newLoadSubjects">newLoadSubjects</a></li><li><a href="global.html#newLoadTypes">newLoadTypes</a></li><li><a href="global.html#RouterAdmin">RouterAdmin</a></li><li><a href="global.html#RoutesActivities">RoutesActivities</a></li><li><a href="global.html#RoutesAreaSubject">RoutesAreaSubject</a></li><li><a href="global.html#RoutesCompetencias">RoutesCompetencias</a></li><li><a href="global.html#RoutesContent">RoutesContent</a></li><li><a href="global.html#RoutesDocente">RoutesDocente</a></li><li><a href="global.html#RoutesDudas">RoutesDudas</a></li><li><a href="global.html#RoutesEstudiantes">RoutesEstudiantes</a></li><li><a href="global.html#RoutesEventos">RoutesEventos</a></li><li><a href="global.html#RoutesGrades">RoutesGrades</a></li><li><a href="global.html#RoutesSchool">RoutesSchool</a></li><li><a href="global.html#RoutesSubject">RoutesSubject</a></li><li><a href="global.html#RoutesSubjectActive">RoutesSubjectActive</a></li><li><a href="global.html#RoutesTypeContent">RoutesTypeContent</a></li><li><a href="global.html#schoolSchema">schoolSchema</a></li><li><a href="global.html#SearchContentREA">SearchContentREA</a></li><li><a href="global.html#subjectActiveSchema">subjectActiveSchema</a></li><li><a href="global.html#subjectSchema">subjectSchema</a></li><li><a href="global.html#typeSchema">typeSchema</a></li><li><a href="global.html#updloadSectionsActivity">updloadSectionsActivity</a></li><li><a href="global.html#uploadActivity">uploadActivity</a></li><li><a href="global.html#uploadDocente">uploadDocente</a></li><li><a href="global.html#uploadEstadoContentREA">uploadEstadoContentREA</a></li><li><a href="global.html#uploadEstadoDuda">uploadEstadoDuda</a></li><li><a href="global.html#uploadEstadoEvento">uploadEstadoEvento</a></li><li><a href="global.html#uploadEstudiante">uploadEstudiante</a></li><li><a href="global.html#uploadEvento">uploadEvento</a></li><li><a href="global.html#uploadInfoLoginDocente">uploadInfoLoginDocente</a></li><li><a href="global.html#uploadInfoPersonalDocente">uploadInfoPersonalDocente</a></li><li><a href="global.html#uploadRespuestaDuda">uploadRespuestaDuda</a></li><li><a href="global.html#uploadSchool">uploadSchool</a></li><li><a href="global.html#uploadURLContentREA">uploadURLContentREA</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Mar 17 2020 15:08:05 GMT-0500 (Colombia Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
