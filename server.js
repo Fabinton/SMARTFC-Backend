@@ -43,7 +43,7 @@ app.post('/subir', multipartMiddleware, (req, res) => {
     const numero = urls.lastIndexOf("/");
     const lasturl = urls.substring(19);
     res.json({
-        'url': `http://localhost:3000/public/repositorio/${lasturl}`
+        'url': `http://localhost:3100/public/repositorio/${lasturl}`
     });
 });
 
@@ -80,4 +80,4 @@ app.use(express.static('public'));
 //Newww for Upload
 
 
-app.listen(3000,'0.0.0.0',()=> console.log(`Server running port 3000`));
+app.listen(3100,'0.0.0.0',()=> console.log(`Server running port 3000`));
