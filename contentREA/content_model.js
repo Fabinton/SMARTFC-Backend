@@ -5,6 +5,16 @@ mongoose.set('useUnifiedTopology', true);
 /** @function contentSchema */
 // Schema in content for model
 
+const reviewSchema = mongoose.Schema(
+    {
+      rating: { type: Number, required: true },
+      contenido_id:{type:Number, requerid: true}
+     },
+    {
+      timestamps: true,
+    }
+  )
+
 const contentSchema = new Schema({
     id_CREA:{
         type: Number,
@@ -61,7 +71,7 @@ const contentSchema = new Schema({
         type: Number,
         required: true,
         trim: true
-    },
+    }
 },{timestamps:true});
 
 module.exports = contentSchema;
