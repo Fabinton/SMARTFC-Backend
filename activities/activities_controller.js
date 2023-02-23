@@ -46,30 +46,13 @@ exports.createActivity = (req, res, next) => {
         CA3: req.body.CA3,
         evaluacion: req.body.evaluacion,
         descripcion_evaluacion: req.body.descripcion_evaluacion,
-        EQ1: req.body.EQ1,
-        EA11: req.body.EA11,
-        EA12: req.body.EA12,
-        EA13: req.body.EA13,
-        EA14: req.body.EA14,
-        ECA1: req.body.ECA1,
-        EQ2: req.body.EQ2,
-        EA21: req.body.EA21,
-        EA22: req.body.EA22,
-        EA23: req.body.EA23,
-        EA24: req.body.EA24,
-        ECA2: req.body.ECA2,
-        EQ3: req.body.EQ3,
-        EA31: req.body.EA31,
-        EA32: req.body.EA32,
-        EA33: req.body.EA33,
-        EA34: req.body.EA34,
-        ECA3: req.body.ECA3,
+        questions: req.body.preguntas,
         autor: req.body.autor,
         id_autor: req.body.id_autor
     }
-    //console.log(newActivities);
+    console.log(newActivities);
     Activities.create(newActivities, (err, activity) => {
-        if (err) return res.json({ Estado: "Error Crear Actividad" });
+        if (err) return res.json({ Estado: "Error Crear Actividad",message:err });
         res.send({ activity });
     })
 }
@@ -183,24 +166,7 @@ exports.uploadActivity = async (req, res) => {
         CA3: req.body.CA3,
         evaluacion: req.body.evaluacion,
         descripcion_evaluacion: req.body.descripcion_evaluacion,
-        EQ1: req.body.EQ1,
-        EA11: req.body.EA11,
-        EA12: req.body.EA12,
-        EA13: req.body.EA13,
-        EA14: req.body.EA14,
-        ECA1: req.body.ECA1,
-        EQ2: req.body.EQ2,
-        EA21: req.body.EA21,
-        EA22: req.body.EA22,
-        EA23: req.body.EA23,
-        EA24: req.body.EA24,
-        ECA2: req.body.ECA2,
-        EQ3: req.body.EQ3,
-        EA31: req.body.EA31,
-        EA32: req.body.EA32,
-        EA33: req.body.EA33,
-        EA34: req.body.EA34,
-        ECA3: req.body.ECA3
+        questions: req.body.preguntas,
     }
     await Activities.updateOne({ id_actividad: activityData.id_actividad }, { $set: activityNewData }, { new: true }, (err => {
         return res.json({ status: 'Actividad Actualizada' });
