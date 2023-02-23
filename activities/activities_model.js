@@ -222,8 +222,93 @@ const activitySchema = new Schema({
         required: true,
         trim: true
     },
-    questions: {
-        type: [],
+    EQ1:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA11:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA12:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA13:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA14:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    ECA1:{
+        type: Number,
+        required: true,
+        trim: true
+    },
+    EQ2:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA21:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA22:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA23:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA24:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    ECA2:{
+        type: Number,
+        required: true,
+        trim: true
+    },
+    EQ3:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA31:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA32:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA33:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    EA34:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    ECA3:{
+        type: Number,
         required: true,
         trim: true
     },
