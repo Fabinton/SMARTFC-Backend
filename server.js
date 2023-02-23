@@ -15,6 +15,8 @@ const subjectActiveRoutes = require('./subjectActive/subjectActive_routes');
 const areaSubjectRoutes = require('./areaSubject/areaSubject_routes');
 const AdministradorRoutes = require('./authAdmin/authAdmin_routes');
 const dudasRoutes = require('./dudas/dudas_routes');
+const comentarioRoutes = require('./comentarios/comentario_routes');
+const nivelSatisfaccionRoutes = require('./nivelsatisfaccion/nivelsatisfaccion_routes');
 //const properties = require('./config/properties');
 const DB = require('./config/db');
 //init DB
@@ -64,7 +66,8 @@ subjectActiveRoutes(router);
 areaSubjectRoutes(router);
 AdministradorRoutes(router);
 dudasRoutes(router);
-
+comentarioRoutes(router);
+nivelSatisfaccionRoutes(router);
 router.get('/',(req, res)=>{
     res.send('Hello From home');
 });

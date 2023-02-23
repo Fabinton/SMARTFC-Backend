@@ -157,6 +157,66 @@ exports.uploadURLContentREA = async (req,res) => {
     }));
 } 
 
+exports.updateRatingActivity = async (req, res) => {
+    const contentData={
+        id_CREA: req.body.id_contenidoREA
+    }
+
+    const { reviews } = req.body;
+    const contenido = await ContentREA.findOne({id_CREA: contentData.id_CREA});
+    console.log("contenido");
+
+    console.log(contentData);
+
+    if (contenido) {
+        reviews.forEach(review => {
+            review = {
+                contenido_id: Number(review.id_qalify),
+                rating: Number(review.defaultRating),
+            }
+            contenido.reviews.push(review)
+        });
+        await contenido.save()
+        res.status(201).json({ message: 'Review added' })
+    } else {
+        res.status(404)
+        throw new Error('Content not found')
+
+    }
+}
+
+exports.loadReviews = async (req, res) => {
+    const contentData={
+        id_CREA: req.body.id_contenidoREA
+    }
+    const contenido = await ContentREA.findOne({id_CREA: contentData.id_CREA});
+    if (contenido) {
+        const foundReview = contenido.reviews;
+        const arrayReviewsSend = [];
+        revieSend = {
+            id_content: null,
+            id_reviews: null,
+            rating: null
+        }
+        for (let index = 0; index < 5; index++) {
+            revieSend = {};
+            const searchReviews = foundReview.filter(review => review.contenido_id == index + 1);
+            const numReviews = searchReviews.length;
+            const rating = searchReviews.reduce((acc, item) => item.rating + acc, 0) / numReviews;
+            revieSend.id_content = index + 1;
+            revieSend.id_reviews = numReviews;
+            revieSend.rating = Math.round(rating);
+            arrayReviewsSend.push(revieSend);
+        }
+        res.status(200).json(
+            arrayReviewsSend
+        )
+    } else {
+        res.status(404)
+        throw new Error('Product not found')
+
+    }
+}
 //id_CREA	tipo_CREA	id_materia	grado10	
 //grado11	
 //nombre_CREA	urlrepositorio	descripcion_CREA
