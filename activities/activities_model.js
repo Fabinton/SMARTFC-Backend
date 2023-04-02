@@ -236,6 +236,11 @@ const activitySchema = new Schema({
         type: Number,
         required: true,
         trim: true
+    },
+    retroalimentacion:{
+        type: Number,
+        required: true,
+        trim: true
     }
 }, {timestamps: true});
 

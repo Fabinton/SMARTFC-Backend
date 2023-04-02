@@ -48,7 +48,8 @@ exports.createActivity = (req, res, next) => {
         descripcion_evaluacion: req.body.descripcion_evaluacion,
         questions: req.body.preguntas,
         autor: req.body.autor,
-        id_autor: req.body.id_autor
+        id_autor: req.body.id_autor,
+        retroalimentacion: req.body.retroalimentacion,
     }
     console.log(newActivities);
     Activities.create(newActivities, (err, activity) => {
@@ -167,6 +168,7 @@ exports.uploadActivity = async (req, res) => {
         evaluacion: req.body.evaluacion,
         descripcion_evaluacion: req.body.descripcion_evaluacion,
         questions: req.body.preguntas,
+        retroalimentacion: req.body.retroalimentacion,
     }
     await Activities.updateOne({ id_actividad: activityData.id_actividad }, { $set: activityNewData }, { new: true }, (err => {
         return res.json({ status: 'Actividad Actualizada' });
@@ -180,7 +182,8 @@ exports.uploadSectionsActivity = async (req, res) => {
     }
     const activityNewData = {
         taller: req.body.taller,
-        evaluacion: req.body.evaluacion
+        evaluacion: req.body.evaluacion,
+        retroalimentacion: req.body.retroalimentacion,
     }
     await Activities.updateOne({ id_actividad: activityData.id_actividad }, { $set: activityNewData }, { new: true }, (err => {
         return res.json({ status: 'Seccion de la Actividad Actualizada' });

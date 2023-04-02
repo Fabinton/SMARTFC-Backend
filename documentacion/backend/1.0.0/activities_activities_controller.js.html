@@ -242,7 +242,8 @@ exports.uploadSectionsActivity = async (req, res) => {
     }
     const activityNewData = {
         taller: req.body.taller,
-        evaluacion: req.body.evaluacion
+        evaluacion: req.body.evaluacion,
+        retroalimentacion: req.body.retroalimentacion
     }
     await Activities.updateOne({id_actividad: activityData.id_actividad}, {$set: activityNewData}, {new: true}, (err =>{
         return res.json({status: 'Seccion de la Actividad Actualizada'});
