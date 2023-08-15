@@ -75,31 +75,23 @@ const eventoSchema = new Schema({
         trim: true
     },
     check_a1:{
-        type:Number,
+        type:String,
         trim: true
     },
     check_a2:{
-        type:Number,
+        type:String,
         trim: true
     },
     check_a3:{
-        type:Number,
+        type:String,
         trim: true
     },
     check_profile:{
         type:Number,
         trim: true
     },
-    check_Ea1:{
-        type:Number,
-        trim: true
-    },
-    check_Ea2:{
-        type:Number,
-        trim: true
-    },
-    check_Ea3:{
-        type:Number,
+    answers: {
+        type: [],
         trim: true
     },
     oculto:{

@@ -47,9 +47,7 @@ exports.createEventos= async(req,res,next)=>  {
         check_a2: req.body.check_a2,
         check_a3: req.body.check_a3,
         check_profile: req.body.check_profile,
-        check_Ea1: req.body.check_Ea1,
-        check_Ea2: req.body.check_Ea2,
-        check_Ea3: req.body.check_Ea3,
+        answers: req.body.answers,
         oculto: 0
     }
     //id_evento	data_start	hour_start	data_hours_end	hour_end
@@ -148,9 +146,7 @@ exports.allEventsForAngular=async(req,res,next)=>{
                 check_a2: storageAllInformation.find(s => s.id_actividad === id_actividad).check_a2,
                 check_a3: storageAllInformation.find(s => s.id_actividad === id_actividad).check_a3,
                 check_profile: storageAllInformation.find(s => s.id_actividad === id_actividad).check_profile,
-                check_Ea1: storageAllInformation.find(s => s.id_actividad === id_actividad).check_Ea1,
-                check_Ea2: storageAllInformation.find(s => s.id_actividad === id_actividad).check_Ea2,
-                check_Ea3: storageAllInformation.find(s => s.id_actividad === id_actividad).check_Ea3,
+                answers: storageAllInformation.find(s => s.id_actividad === id_actividad).answers,
                 id_evento: storageAllInformation.find(s => s.id_actividad === id_actividad).id_evento,
             };
         });
@@ -208,9 +204,7 @@ exports.uploadEvento = async (req, res) => {
         check_a2: req.body.check_a2,
         check_a3: req.body.check_a3,
         check_profile: req.body.check_profile,
-        check_Ea1: req.body.check_Ea1,
-        check_Ea2: req.body.check_Ea2,
-        check_Ea3: req.body.check_Ea3,
+        answers: req.body.answers,
         oculto: req.body.oculto
     }
     await Eventos.updateOne({id_evento: eventoData.id_evento}, {$set: eventoNewData}, {new: true});
