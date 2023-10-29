@@ -29,6 +29,7 @@ exports.loadContentREA= (req,res,next)=>{
     const contentData={
         id_CREA: req.body.id_contenidoREA
     }
+    console.log('datos sss ',req.body.id_contenidoREA)
     ContentREA.findOne({id_CREA: contentData.id_CREA},(err, content)=>{
         if(err) return res.status(500).send('Server Error');
         if(!content){

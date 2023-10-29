@@ -119,12 +119,12 @@ const activitySchema = new Schema({
     },
     id_retrotaller:{
         type: Number,
-        required: true,
+        required: false,
         trim: true
     },
     urlretrotaller:{
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     descripcion_test:{
